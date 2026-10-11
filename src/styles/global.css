@@ -1,0 +1,683 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--gray-50);
+  color: var(--gray-700);
+  font-family: var(--font-main);
+  font-size: 1rem;
+  line-height: 24px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--gray-800);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon {
+  flex: none;
+}
+
+/* ---------- Bingkai perangkat (hanya di layar lebar) ---------- */
+.stage {
+  min-height: 100dvh;
+}
+
+.phone {
+  position: relative;
+  height: 100dvh;
+}
+
+.phone-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--gray-50);
+}
+
+/* Hanya area isi yang bisa di-scroll. Navigasi dan tombol aksi tetap di tempat. */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  flex: none;
+  padding: var(--space-2);
+  background: var(--gray-50);
+  box-shadow: 0 -6px 12px rgba(17, 24, 39, 0.06);
+}
+
+.stage-head,
+.stage-foot,
+.status-bar,
+.home-indicator,
+.phone-btn {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    background: var(--stage-bg);
+  }
+
+  .stage-head,
+  .stage-foot {
+    display: block;
+    text-align: center;
+  }
+
+  .stage-title {
+    color: var(--color-primary);
+    font-size: 1.75rem;
+    line-height: 36px;
+    font-weight: 700;
+  }
+
+  .stage-sub {
+    color: var(--gray-800);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .stage-group {
+    color: var(--gray-800);
+    font-size: 0.875rem;
+    line-height: 20px;
+    font-weight: 700;
+  }
+
+  .phone {
+    width: 484px;
+    height: 1000px;
+    min-height: 0;
+    flex: none;
+    zoom: var(--phone-scale, 1);
+    padding: 17px;
+    background: var(--frame);
+    border-radius: 84px;
+    box-shadow:
+      0 0 0 2px #374151,
+      inset 0 0 0 2px #1f2937,
+      0 24px 48px rgba(17, 24, 39, 0.22);
+  }
+
+  .phone-screen {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 68px;
+  }
+
+  .status-bar {
+    position: relative;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    height: 58px;
+    padding: 8px 42px 0 40px;
+    color: var(--gray-800);
+  }
+
+  .status-time {
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .island {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 132px;
+    height: 38px;
+    background: var(--frame);
+    border-radius: 20px;
+    transform: translateX(-50%);
+  }
+
+  .home-indicator {
+    position: relative;
+    display: block;
+    flex: none;
+    height: 26px;
+  }
+
+  .phone-screen.with-nav .home-indicator {
+    background: var(--white);
+  }
+
+  .home-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 9px;
+    left: 50%;
+    width: 140px;
+    height: 5px;
+    background: var(--frame);
+    border-radius: 3px;
+    transform: translateX(-50%);
+  }
+
+  .phone-btn {
+    position: absolute;
+    display: block;
+    width: 5px;
+    background: var(--frame);
+    box-shadow: 0 0 0 1px #374151;
+  }
+
+  .phone-btn-mute {
+    top: 118px;
+    left: -5px;
+    height: 30px;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .phone-btn-up {
+    top: 178px;
+    left: -5px;
+    height: 62px;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .phone-btn-down {
+    top: 256px;
+    left: -5px;
+    height: 62px;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .phone-btn-power {
+    top: 214px;
+    right: -5px;
+    height: 100px;
+    border-radius: 0 3px 3px 0;
+  }
+}
+
+/* ---------- Layar ---------- */
+.screen {
+  flex: 1;
+  padding: var(--space-3) var(--space-2) var(--space-3);
+}
+
+.screen h2 {
+  font-size: 1.5rem;
+  line-height: 32px;
+}
+
+.screen h3 {
+  margin: var(--space-3) 0 var(--space-1);
+  font-size: 1.25rem;
+  line-height: 28px;
+}
+
+.screen h4 {
+  margin: var(--space-3) 0 var(--space-1);
+  font-size: 1.125rem;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.caption {
+  color: var(--gray-600);
+  font-size: 0.75rem;
+  line-height: 16px;
+}
+
+.greeting {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  background: var(--gray-200);
+  border-radius: 50%;
+  color: var(--gray-700);
+}
+
+/* ---------- Tombol ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 48px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-primary);
+  color: var(--white);
+  font-size: 1rem;
+  line-height: 24px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn:active {
+  background: var(--color-primary-pressed);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* ---------- Kartu tugas ---------- */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+}
+
+.task-check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: -12px 0 -12px -12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.task-check span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--gray-500);
+  border-radius: 50%;
+  color: var(--white);
+}
+
+.task-check.is-done span {
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.task-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  color: var(--gray-600);
+  text-decoration: none;
+}
+
+.task-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.task-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--gray-800);
+  font-size: 1rem;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.task-title.is-done {
+  color: var(--gray-600);
+  text-decoration: line-through;
+}
+
+.task-title .icon {
+  color: var(--color-success);
+}
+
+/* ---------- Badge sisa hari ---------- */
+.badge {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  padding: 4px var(--space-1);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-late {
+  background: var(--color-late);
+  color: var(--white);
+}
+
+.badge-urgent {
+  background: var(--color-danger);
+  color: var(--white);
+}
+
+.badge-soon {
+  background: var(--color-warning);
+  color: var(--gray-800);
+}
+
+.badge-normal {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.badge-done {
+  background: var(--color-success);
+  color: var(--white);
+}
+
+/* ---------- Form ---------- */
+.screen-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: -12px;
+}
+
+.back-btn {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gray-800);
+  cursor: pointer;
+}
+
+.form-screen {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.field fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-1);
+}
+
+.field-head label,
+.field-head legend {
+  padding: 0;
+  color: var(--gray-800);
+  font-size: 0.875rem;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-2);
+  background: var(--white);
+  border: 1px solid var(--gray-500);
+  border-radius: var(--radius);
+  color: var(--gray-800);
+  line-height: 24px;
+}
+
+textarea.input {
+  padding: 12px var(--space-2);
+  resize: none;
+}
+
+.input::placeholder {
+  color: var(--gray-600);
+}
+
+.input:focus,
+.input:focus-within {
+  border: 2px solid var(--color-primary);
+  padding-left: 15px;
+  outline: none;
+}
+
+textarea.input:focus {
+  padding: 11px 15px;
+}
+
+.input.has-error {
+  border: 2px solid var(--color-danger);
+  padding-left: 15px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  color: var(--color-danger);
+  font-size: 0.75rem;
+  line-height: 16px;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap select {
+  appearance: none;
+  padding-right: 48px;
+  cursor: pointer;
+}
+
+.select-wrap .icon {
+  position: absolute;
+  top: 12px;
+  right: var(--space-2);
+  color: var(--gray-800);
+  pointer-events: none;
+}
+
+.date-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.date-field input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.segmented label {
+  position: relative;
+  display: block;
+  flex: 1;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+}
+
+.segmented span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 48px;
+  background: var(--white);
+  border: 1px solid var(--gray-500);
+  border-radius: var(--radius);
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.segmented input:checked + span {
+  background: var(--color-secondary);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.segmented input:focus-visible + span {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Navigasi bawah ---------- */
+.bottom-nav {
+  display: flex;
+  flex: none;
+  height: 64px;
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+}
+
+.nav-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--gray-600);
+  font-size: 0.75rem;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.nav-item.is-active {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ---------- Halaman tidak ditemukan ---------- */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.not-found p {
+  margin: var(--space-1) 0 var(--space-3);
+}

@@ -1,0 +1,37 @@
+:root {
+  /* Warna utama (style guide bagian 1) */
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-pressed: #1e40af;
+  --color-secondary: #dbeafe;
+  --color-success: #15803d;
+  --color-warning: #fbbf24;
+  --color-danger: #dc2626;
+  --color-late: #991b1b;
+
+  /* Skala abu-abu */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --white: #ffffff;
+
+  /* Latar bingkai perangkat (mengikuti mockup) */
+  --stage-bg: #eef4fd;
+  --frame: #111827;
+
+  /* Spacing 8-point */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+
+  --radius: 12px;
+  --font-main: 'Inter', system-ui, -apple-system, Roboto, sans-serif;
+}
