@@ -76,6 +76,21 @@ tugasku/
 | `/ubah/:id` | Ubah Tugas (memakai form yang sama) |
 | lainnya     | Halaman tidak ditemukan             |
 
+## Komponen reusable
+
+Tiga komponen ada di `src/components`: `Button`, `Card`, dan `FormField`. Gayanya ada di `src/styles/components.css` dan memakai variabel dari `variables.css` (style guide Pertemuan 3). Dokumentasi lengkap (properti, variasi, state, contoh, dan batasan) ada di `docs/tugas5b/AP1_P5_KelompokJosjis_Component_Library.pdf`.
+
+| Komponen    | Dipakai di                                                          |
+| ----------- | ------------------------------------------------------------------- |
+| `Button`    | Beranda, Tambah atau Ubah Tugas, Halaman tidak ditemukan            |
+| `Card`      | Kartu tugas di Beranda                                              |
+| `FormField` | Nama tugas, mata kuliah, tanggal tenggat, dan catatan di form tugas |
+
+```tsx
+<Button to="/tambah" fullWidth>Tambah Tugas</Button>
+<FormField id="title" label="Nama tugas" requirement="wajib" value={title} onChange={...} error={errors.title} />
+```
+
 ## PWA
 
 Berkas PWA ada di folder `public/`: `manifest.json` (nama, ikon, warna), `sw.js` (service worker), `offline.html` (halaman saat offline), dan `icons/`. Service worker hanya aktif pada hasil build, jadi ujinya begini:

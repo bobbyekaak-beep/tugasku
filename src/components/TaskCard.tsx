@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { Task } from '../types/task';
 import { formatDate } from '../utils/deadline';
 import { useTasks } from '../context/TaskContext';
+import { Card } from './Card';
 import { DeadlineBadge } from './DeadlineBadge';
 import { Icon } from './Icon';
 
@@ -9,7 +10,7 @@ export function TaskCard({ task }: { task: Task }) {
   const { toggleDone } = useTasks();
 
   return (
-    <li className="task-card">
+    <Card as="li" className="task-card">
       <button
         type="button"
         className={`task-check ${task.done ? 'is-done' : ''}`}
@@ -36,6 +37,6 @@ export function TaskCard({ task }: { task: Task }) {
         </div>
         <Icon name="chevronRight" />
       </Link>
-    </li>
+    </Card>
   );
 }

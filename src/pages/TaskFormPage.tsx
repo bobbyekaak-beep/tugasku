@@ -1,7 +1,9 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
+import { Button } from '../components/Button';
 import { DeadlineBadge } from '../components/DeadlineBadge';
+import { FormField } from '../components/FormField';
 import { Icon } from '../components/Icon';
 import { formatDateLong, toDateString } from '../utils/deadline';
 import type { TaskType } from '../types/task';
@@ -75,48 +77,26 @@ export function TaskFormPage() {
         </div>
 
         <form id="task-form" className="form" onSubmit={handleSubmit} noValidate>
-          <div className="field">
-            <div className="field-head">
-              <label htmlFor="title">Nama tugas</label>
-              <span className="caption">Wajib</span>
-            </div>
-            <input
-              id="title"
-              className={`input ${errors.title ? 'has-error' : ''}`}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Contoh: Laporan Praktikum"
-              aria-invalid={Boolean(errors.title)}
-            />
-            {errors.title && (
-              <p className="error">
-                <Icon name="alertCircle" size={16} /> {errors.title}
-              </p>
-            )}
-          </div>
+          <FormField
+            id="title"
+            label="Nama tugas"
+            requirement="wajib"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Contoh: Laporan Praktikum"
+            error={errors.title}
+          />
 
-          <div className="field">
-            <div className="field-head">
-              <label htmlFor="course">Mata kuliah</label>
-              <span className="caption">Opsional</span>
-            </div>
-            <div className="select-wrap">
-              <select
-                id="course"
-                className="input"
-                value={course}
-                onChange={(e) => setCourse(e.target.value)}
-              >
-                <option value="">Pilih mata kuliah</option>
-                {courseOptions.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              <Icon name="chevronDown" />
-            </div>
-          </div>
+          <FormField
+            control="select"
+            id="course"
+            label="Mata kuliah"
+            requirement="opsional"
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            placeholder="Pilih mata kuliah"
+            options={courseOptions.map((c) => ({ value: c, label: c }))}
+          />
 
           <div className="field">
             <fieldset>
@@ -144,11 +124,21 @@ export function TaskFormPage() {
             </fieldset>
           </div>
 
-          <div className="field">
-            <div className="field-head">
-              <label htmlFor="dueDate">Tanggal tenggat</label>
-              <span className="caption">Wajib</span>
-            </div>
+          <FormField
+            control="custom"
+            id="dueDate"
+            label="Tanggal tenggat"
+            requirement="wajib"
+            error={errors.dueDate}
+            helper={
+              dueDate ? (
+                <>
+                  Tampil di Beranda sebagai{' '}
+                  <DeadlineBadge dueDate={dueDate} done={false} />
+                </>
+              ) : undefined
+            }
+          >
             <div
               className={`input date-field ${errors.dueDate ? 'has-error' : ''}`}
               onClick={openDatePicker}
@@ -164,40 +154,26 @@ export function TaskFormPage() {
                 aria-invalid={Boolean(errors.dueDate)}
               />
             </div>
-            {errors.dueDate && (
-              <p className="error">
-                <Icon name="alertCircle" size={16} /> {errors.dueDate}
-              </p>
-            )}
-            {dueDate && !errors.dueDate && (
-              <p className="hint caption">
-                Tampil di Beranda sebagai <DeadlineBadge dueDate={dueDate} done={false} />
-              </p>
-            )}
-          </div>
+          </FormField>
 
-          <div className="field">
-            <div className="field-head">
-              <label htmlFor="notes">Catatan</label>
-              <span className="caption">Opsional</span>
-            </div>
-            <textarea
-              id="notes"
-              className="input"
-              rows={4}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Contoh: dikumpulkan lewat e-belajar"
-            />
-          </div>
+          <FormField
+            control="textarea"
+            id="notes"
+            label="Catatan"
+            requirement="opsional"
+            rows={4}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Contoh: dikumpulkan lewat e-belajar"
+          />
         </form>
       </section>
 
       {/* Tombol simpan tetap di bawah layar meskipun form di-scroll. */}
       <div className="action-bar">
-        <button type="submit" form="task-form" className="btn btn-full">
+        <Button type="submit" form="task-form" fullWidth>
           <Icon name="check" /> {isEdit ? 'Simpan Perubahan' : 'Simpan Tugas'}
-        </button>
+        </Button>
       </div>
     </>
   );

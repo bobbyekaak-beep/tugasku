@@ -7,6 +7,7 @@ import '@fontsource/inter/700.css';
 import App from './App';
 import { TaskProvider } from './context/TaskContext';
 import './styles/variables.css';
+import './styles/components.css';
 import './styles/global.css';
 
 createRoot(document.getElementById('root')!).render(

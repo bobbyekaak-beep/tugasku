@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
+import { Button } from '../components/Button';
 import { TaskCard } from '../components/TaskCard';
 import { Icon } from '../components/Icon';
 import { daysLeft } from '../utils/deadline';
@@ -55,9 +55,9 @@ export function HomePage() {
 
       {/* Tombol tetap di bawah layar dan tidak ikut bergeser saat daftar di-scroll. */}
       <div className="action-bar">
-        <Link to="/tambah" className="btn btn-full">
+        <Button to="/tambah" fullWidth>
           <Icon name="plus" /> Tambah Tugas
-        </Link>
+        </Button>
       </div>
     </>
   );
