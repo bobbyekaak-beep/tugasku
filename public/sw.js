@@ -1,6 +1,6 @@
 // Service worker TugasKu - Kelompok Josjis
 // Naikkan nomor versi (v1 -> v2) setiap kali berkas ini atau daftar PRECACHE berubah.
-const CACHE = 'tugasku-static-v1';
+const CACHE = 'tugasku-static-v2';
 const PRECACHE = ['/', '/offline.html', '/manifest.json', '/icons/icon-192.png'];
 
 // Saat dipasang: simpan berkas penting ke cache.
@@ -33,5 +33,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Aset statis: pakai cache bila ada, kalau tidak ambil dari jaringan.
-  event.respondWith(caches.match(req).then((hit) => hit || fetch(req)));
+  // Jika jaringan gagal (offline), beri jawaban kosong agar tidak muncul galat.
+  event.respondWith(
+    caches
+      .match(req)
+      .then((hit) => hit || fetch(req))
+      .catch(() => new Response('', { status: 503, statusText: 'Offline' })),
+  );
 });
