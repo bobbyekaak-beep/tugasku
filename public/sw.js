@@ -1,6 +1,6 @@
 // Service worker TugasKu - Kelompok Josjis
 // Naikkan nomor versi (v1 -> v2) setiap kali berkas ini atau daftar PRECACHE berubah.
-const CACHE = 'tugasku-static-v2';
+const CACHE = 'tugasku-static-v3';
 const PRECACHE = ['/', '/offline.html', '/manifest.json', '/icons/icon-192.png'];
 
 // Saat dipasang: simpan berkas penting ke cache.
