@@ -1,0 +1,23 @@
+TUGAS 5a - PWA MINIMAL - KELOMPOK JOSJIS
+
+Folder tugasku ini sudah berisi kode lama kalian + semua tambahan PWA. Tinggal dipakai.
+
+YANG DITAMBAH / DIUBAH
+Baru   : public/manifest.json, public/sw.js, public/offline.html, public/icons/,
+         vercel.json, docs/tugas5a/
+Diedit : index.html, src/main.tsx, README.md
+
+LANGKAH
+1. Di folder tugasku: npm install, lalu npm run build dan npm run preview.
+2. Chrome DevTools > Application: cek Manifest, Service Workers, lalu centang Offline
+   dan muat ulang untuk melihat halaman fallback.
+3. git add . / git commit -m "Tambah PWA minimal" / git push
+4. Deploy repo ke Vercel, salin URL-nya.
+5. Simpan 4 tangkapan layar di docs/tugas5a/screenshots/ dengan nama:
+   1_manifest.png, 2_service_worker.png, 3_offline.png, 4_install.png
+6. Isi URL_DEPLOY di docs/tugas5a/build_checklist.py. Di terminal folder docs/tugas5a:
+   pip install reportlab pillow
+   python3 build_checklist.py     (Windows: python build_checklist.py)
+7. Unggah ke e-belajar: PDF hasil langkah 6 dan dikumpulkan/AP1_P5_KelompokJosjis_manifest.json.
+   Kolom teks online: URL Vercel dan https://github.com/bobbyekaak-beep/tugasku
+   (PDF di folder dikumpulkan masih berisi kotak bukti kosong. Pakai PDF hasil langkah 6.)

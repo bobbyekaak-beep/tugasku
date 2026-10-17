@@ -2,7 +2,7 @@
 
 Aplikasi web responsif (mobile-first) untuk membantu mahasiswa melihat tugas dari yang paling dekat tenggatnya.
 
-Proyek mata kuliah AP1, Pertemuan 4, Kelompok Josjis:
+Proyek mata kuliah AP1, Kelompok Josjis:
 
 - Bobby Eka Angga Kusuma (251111021, ketua)
 - Tyo Dzaky Kamaludin (251111009)
@@ -16,6 +16,7 @@ Skeleton ini berisi kerangka dua fitur inti MVP dengan data contoh di memori (be
 - Tambah Tugas: form yang dipakai ulang untuk Ubah Tugas (ketuk kartu di Beranda). Tombol simpan juga tetap di bawah layar saat form di-scroll.
 - Navigasi bawah (Beranda, Tugas, Kalender, Profil). Hanya Beranda yang aktif di MVP.
 - Halaman not found untuk alamat yang tidak dikenal.
+- PWA minimal (Pertemuan 5): aplikasi bisa dipasang di layar utama dan menampilkan halaman offline saat internet putus.
 - Di layar lebar (laptop), aplikasi tampil di dalam bingkai iPhone 16 Pro Max seperti mockup. Di HP, bingkai hilang dan aplikasi memenuhi layar.
 
 ## Cara menjalankan
@@ -55,7 +56,10 @@ tugasku/
 │   ├── utils/        Perhitungan sisa hari dan format tanggal (beserta tes)
 │   ├── styles/       variables.css (warna, spacing dari style guide) dan global.css
 │   ├── App.tsx       Daftar rute
-│   └── main.tsx      Titik masuk aplikasi
+│   └── main.tsx      Titik masuk aplikasi (juga mendaftarkan service worker)
+├── public/           Berkas PWA: manifest.json, sw.js, offline.html, icons/
+├── docs/tugas5a/     Skrip pembuat laporan PWA dan tangkapan layar bukti
+├── vercel.json       Aturan rute untuk deploy di Vercel
 ├── .editorconfig     Aturan dasar editor
 ├── .prettierrc       Aturan Prettier
 ├── eslint.config.js  Aturan ESLint
@@ -71,6 +75,17 @@ tugasku/
 | `/tambah`   | Tambah Tugas                        |
 | `/ubah/:id` | Ubah Tugas (memakai form yang sama) |
 | lainnya     | Halaman tidak ditemukan             |
+
+## PWA
+
+Berkas PWA ada di folder `public/`: `manifest.json` (nama, ikon, warna), `sw.js` (service worker), `offline.html` (halaman saat offline), dan `icons/`. Service worker hanya aktif pada hasil build, jadi ujinya begini:
+
+```bash
+npm run build
+npm run preview
+```
+
+Lalu buka Chrome DevTools, tab Application. Cek Manifest, Service Workers, dan centang Offline untuk melihat halaman fallback. Jika isi `sw.js` atau daftar berkas di dalamnya berubah, naikkan nomor versi cache (`tugasku-static-v1` menjadi `v2`). Untuk deploy di Vercel, `vercel.json` mengarahkan semua alamat ke `index.html` agar rute seperti `/tambah` tidak 404.
 
 ## Teknologi
 

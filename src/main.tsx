@@ -18,3 +18,12 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </StrictMode>,
 );
+
+// PWA: daftarkan service worker hanya pada hasil build (bukan server pengembangan).
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .catch((err) => console.error('Service worker gagal didaftarkan', err));
+  });
+}
