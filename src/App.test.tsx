@@ -34,12 +34,12 @@ describe('App', () => {
 
   it('form menolak nama tugas kosong', async () => {
     renderAt('/tambah');
-    await userEvent.click(screen.getByRole('button', { name: /Simpan Tugas/ }));
+    await userEvent.click(await screen.findByRole('button', { name: /Simpan Tugas/ }));
     expect(screen.getByText('Nama tugas wajib diisi')).toBeInTheDocument();
   });
 
-  it('alamat yang tidak dikenal menampilkan halaman not found', () => {
+  it('alamat yang tidak dikenal menampilkan halaman not found', async () => {
     renderAt('/tidak-ada');
-    expect(screen.getByText('Halaman tidak ditemukan')).toBeInTheDocument();
+    expect(await screen.findByText('Halaman tidak ditemukan')).toBeInTheDocument();
   });
 });

@@ -1,8 +1,15 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { DeviceFrame } from './components/DeviceFrame';
 import { HomePage } from './pages/HomePage';
-import { TaskFormPage } from './pages/TaskFormPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+
+// Layar ini dimuat hanya saat dibuka (code-splitting per rute).
+const TaskFormPage = lazy(() =>
+  import('./pages/TaskFormPage').then((m) => ({ default: m.TaskFormPage })),
+);
+const NotFoundPage = lazy(() =>
+  import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
+);
 
 function getScreenName(pathname: string): string {
   if (pathname === '/') return 'Beranda';
@@ -18,12 +25,20 @@ export default function App() {
 
   return (
     <DeviceFrame screenName={getScreenName(pathname)} withNav={!isForm}>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/tambah" element={<TaskFormPage />} />
-        <Route path="/ubah/:id" element={<TaskFormPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <Suspense
+        fallback={
+          <section className="screen">
+            <p className="caption">Memuat...</p>
+          </section>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/tambah" element={<TaskFormPage />} />
+          <Route path="/ubah/:id" element={<TaskFormPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </DeviceFrame>
   );
 }

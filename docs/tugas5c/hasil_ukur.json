@@ -1,0 +1,30 @@
+{
+  "tanggal_ukur": null,
+  "cara_membuka_aplikasi": null,
+  "perangkat_dan_mode": "Chrome, Lighthouse mode Mobile",
+  "commit_sebelum": null,
+  "commit_sesudah": null,
+  "sebelum": {
+    "js_awal_kb": null,
+    "js_gzip_kb": null,
+    "css_kb": null,
+    "jumlah_berkas_js": null,
+    "lighthouse_performance": null,
+    "fcp_detik": null,
+    "lcp_detik": null,
+    "tbt_ms": null,
+    "cls": null
+  },
+  "sesudah": {
+    "js_awal_kb": null,
+    "js_gzip_kb": null,
+    "css_kb": null,
+    "jumlah_berkas_js": null,
+    "lighthouse_performance": null,
+    "fcp_detik": null,
+    "lcp_detik": null,
+    "tbt_ms": null,
+    "cls": null
+  },
+  "catatan_hasil": null
+}
