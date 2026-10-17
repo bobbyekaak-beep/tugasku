@@ -17,5 +17,21 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/wide.png",
+      "sizes": "2560x1439",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Beranda TugasKu di layar lebar"
+    },
+    {
+      "src": "/screenshots/narrow.png",
+      "sizes": "1080x1440",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Beranda TugasKu di ponsel"
+    }
   ]
 }
