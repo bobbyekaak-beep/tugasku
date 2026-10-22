@@ -12,7 +12,9 @@ export type IconName =
   | 'chevronRight'
   | 'chevronDown'
   | 'arrowLeft'
-  | 'plus';
+  | 'plus'
+  | 'info'
+  | 'close';
 
 const paths: Record<IconName, ReactNode> = {
   home: <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
@@ -52,6 +54,13 @@ const paths: Record<IconName, ReactNode> = {
   chevronDown: <path d="M6 9l6 6 6-6" />,
   arrowLeft: <path d="M19 12H5M11 6l-6 6 6 6" />,
   plus: <path d="M12 5v14M5 12h14" />,
+  info: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5M12 8h.01" />
+    </>
+  ),
+  close: <path d="M6 6l12 12M18 6L6 18" />,
 };
 
 /** Ikon outline 24 px dengan garis 2 px sesuai style guide. */

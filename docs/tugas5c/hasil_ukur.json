@@ -1,30 +1,30 @@
 {
-  "tanggal_ukur": null,
-  "cara_membuka_aplikasi": null,
-  "perangkat_dan_mode": "Chrome, Lighthouse mode Mobile",
-  "commit_sebelum": null,
-  "commit_sesudah": null,
+  "tanggal_ukur": "18 Oktober 2026",
+  "cara_membuka_aplikasi": "npm run build lalu npm run preview, dibuka di http://localhost:4173",
+  "perangkat_dan_mode": "Chrome Incognito, Lighthouse mode Mobile",
+  "commit_sebelum": "72f6403",
+  "commit_sesudah": "6b60c71",
   "sebelum": {
-    "js_awal_kb": null,
-    "js_gzip_kb": null,
-    "css_kb": null,
-    "jumlah_berkas_js": null,
-    "lighthouse_performance": null,
-    "fcp_detik": null,
-    "lcp_detik": null,
-    "tbt_ms": null,
-    "cls": null
+    "js_awal_kb": 273.76,
+    "js_gzip_kb": 86.96,
+    "css_kb": 16.74,
+    "jumlah_berkas_js": 1,
+    "lighthouse_performance": 98,
+    "fcp_detik": 1.9,
+    "lcp_detik": 1.9,
+    "tbt_ms": 30,
+    "cls": 0.001
   },
   "sesudah": {
-    "js_awal_kb": null,
-    "js_gzip_kb": null,
-    "css_kb": null,
-    "jumlah_berkas_js": null,
-    "lighthouse_performance": null,
-    "fcp_detik": null,
-    "lcp_detik": null,
-    "tbt_ms": null,
-    "cls": null
+    "js_awal_kb": 269.7,
+    "js_gzip_kb": 85.87,
+    "css_kb": 10.66,
+    "jumlah_berkas_js": 3,
+    "lighthouse_performance": 98,
+    "fcp_detik": 1.9,
+    "lcp_detik": 1.9,
+    "tbt_ms": 10,
+    "cls": 0.001
   },
-  "catatan_hasil": null
+  "catatan_hasil": "Optimasi membuat ukuran berkas lebih kecil. CSS turun dari 16,74 KB menjadi 10,66 KB (sekitar 36 persen) karena font hanya memuat aksara Latin, dan JavaScript utama turun dari 273,76 KB menjadi 269,70 KB karena layar form dan not found dipisah dari bundle awal. Skor Lighthouse tetap 98, serta FCP dan LCP tetap 1,9 detik. Dugaan kami, aplikasi sudah kecil sejak awal sehingga waktu muat lebih banyak ditentukan oleh simulasi jaringan Lighthouse. TBT turun dari 30 ke 10 ms, tetapi hasil antar pengukuran bervariasi, jadi kami tidak menganggapnya perbaikan yang pasti."
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { Task } from '../types/task';
-import { formatDate } from '../utils/deadline';
+import { formatDate, getDeadlineStatus } from '../utils/deadline';
 import { useTasks } from '../context/TaskContext';
 import { Card } from './Card';
 import { DeadlineBadge } from './DeadlineBadge';
@@ -8,9 +8,11 @@ import { Icon } from './Icon';
 
 export function TaskCard({ task }: { task: Task }) {
   const { toggleDone } = useTasks();
+  const { tone } = getDeadlineStatus(task.dueDate, task.done);
 
   return (
-    <Card as="li" className="task-card">
+    <Card as="li" className={`task-card tone-${tone}`}>
+      {/* Lingkaran = tandai selesai. Kartu (panah) = buka detail. */}
       <button
         type="button"
         className={`task-check ${task.done ? 'is-done' : ''}`}
@@ -19,20 +21,22 @@ export function TaskCard({ task }: { task: Task }) {
         }
         onClick={() => toggleDone(task.id)}
       >
-        <span>{task.done && <Icon name="check" size={18} />}</span>
+        <span>
+          <Icon name="check" size={18} />
+        </span>
       </button>
 
       <Link to={`/ubah/${task.id}`} className="task-link">
         <div className="task-main">
-          <div className="task-top">
-            <span className={`task-title ${task.done ? 'is-done' : ''}`}>
-              {task.title}
-              {task.done && <Icon name="check" size={16} />}
-            </span>
+          <p className="task-type">Tugas {task.type}</p>
+          <span className={`task-title ${task.done ? 'is-done' : ''}`}>{task.title}</span>
+          <p className="task-meta">
             <DeadlineBadge dueDate={task.dueDate} done={task.done} />
-          </div>
-          <p className="caption">
-            Tugas {task.type} · Sampai {formatDate(task.dueDate)}
+            <span className="task-date">
+              <Icon name="calendar" size={16} />
+              <span className="sr-only">Sampai </span>
+              {formatDate(task.dueDate)}
+            </span>
           </p>
         </div>
         <Icon name="chevronRight" />

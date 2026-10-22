@@ -16,13 +16,17 @@ export function BottomNav() {
         end
         className={({ isActive }) => `nav-item ${isActive ? 'is-active' : ''}`}
       >
-        <Icon name="home" />
-        Beranda
+        <span className="nav-pill">
+          <Icon name="home" size={28} />
+        </span>
+        <span className="nav-label">Beranda</span>
       </NavLink>
       {disabledItems.map((item) => (
         <span key={item.label} className="nav-item" aria-disabled="true">
-          <Icon name={item.icon} />
-          {item.label}
+          <span className="nav-pill">
+            <Icon name={item.icon} size={28} />
+          </span>
+          <span className="nav-label">{item.label}</span>
         </span>
       ))}
     </nav>
