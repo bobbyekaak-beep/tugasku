@@ -1,0 +1,30 @@
+CARA MENGUKUR (Tugas 5c)
+
+Angka di laporan harus dari pengukuran sendiri. Ukur DUA kali dengan cara yang sama persis.
+
+A. SEBELUM (baseline). Lakukan SEBELUM memasang berkas optimasi 5c.
+   1. Pastikan repo sudah berisi 5a dan 5b, tetapi belum berisi berkas dari tugasku_5c_optimasi_timpa.zip.
+   2. Catat kode commit: git log --oneline -1   (isi "commit_sebelum")
+   3. Jalankan: npm run build
+      Dari keluaran build, catat:
+        - ukuran berkas JS utama (dist/assets/index-xxxx.js) dan angka gzip di sebelahnya
+        - ukuran berkas CSS (dist/assets/index-xxxx.css)
+        - jumlah berkas .js di dist/assets
+   4. Jalankan: npm run preview
+   5. Buka http://localhost:4173 di jendela Incognito Chrome (supaya tanpa ekstensi).
+      F12 > tab Lighthouse > Mode: Navigation, Device: Mobile, kategori Performance > Analyze page load.
+   6. Ulangi 3 kali. Ambil nilai tengah (median) untuk: skor Performance, FCP, LCP, TBT, CLS.
+   7. Isi bagian "sebelum" di hasil_ukur.json.
+
+B. SESUDAH.
+   1. Ekstrak tugasku_5c_optimasi_timpa.zip dan timpa berkas di repo (src/App.tsx, src/main.tsx, src/App.test.tsx).
+   2. npm test  (pastikan semua tes lulus), npm run lint, npm run format:check
+   3. Commit: git add . / git commit -m "Optimasi performa awal" ; catat kode commit ("commit_sesudah").
+   4. Ulangi langkah A.3 sampai A.6 dengan cara yang sama persis. Isi bagian "sesudah".
+
+C. LAPORAN.
+   1. Isi "tanggal_ukur", "cara_membuka_aplikasi" (misalnya npm run preview), dan "catatan_hasil"
+      (2 sampai 4 kalimat, dengan kata-kata sendiri: apa yang membaik, apa yang tidak, dugaan penyebabnya).
+      Bila angka tidak membaik, tulis apa adanya. Itu tetap temuan yang sah.
+   2. Jalankan: python3 build_performance_report.py   (Windows: python build_performance_report.py)
+   3. Hasil: AP1_P5_KelompokJosjis_Performance_Report.pdf

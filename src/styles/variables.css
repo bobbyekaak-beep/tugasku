@@ -1,0 +1,41 @@
+:root {
+  /* Warna utama */
+  --blue: #2563eb;
+  --blue-600: #1d4ed8;
+  --blue-500: #3b82f6;
+  --blue-100: #dbeafe;
+  --violet: #7c5cf0;
+  --success: #16a34a;
+  --amber: #f59e0b;
+  --danger: #e11d48;
+  --late: #991b1b;
+
+  /* Teks */
+  --ink: #0f1b3d;
+  --ink-2: #3a4668;
+  --muted: #667192;
+
+  /* Glass (card sedikit transparan + blur) */
+  --glass-bg: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.74),
+    rgba(255, 255, 255, 0.5)
+  );
+  --glass-solid: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.78);
+  --glass-blur: blur(20px) saturate(1.45);
+  --glass-shadow:
+    0 12px 34px rgba(54, 80, 200, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --line: rgba(37, 99, 235, 0.1);
+  --tile: rgba(255, 255, 255, 0.55);
+
+  /* Spacing 8-point */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+
+  --radius: 20px;
+  --radius-sm: 14px;
+  --font-main: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
