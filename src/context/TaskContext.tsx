@@ -1,93 +1,91 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { Task } from '../types/task';
-import { toDateString } from '../utils/deadline';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
+import * as api from '../api/taskApi';
+import type { Task, TaskInput } from '../types/task';
 
-type TaskInput = Omit<Task, 'id' | 'done'>;
+type Status = 'loading' | 'ready' | 'error';
 
 interface TaskContextValue {
   tasks: Task[];
-  addTask: (task: TaskInput) => void;
-  updateTask: (id: string, changes: TaskInput) => void;
-  toggleDone: (id: string) => void;
+  status: Status;
+  /** Pesan gagal dari aksi cepat (misalnya menandai selesai). null bila tidak ada. */
+  actionError: string | null;
+  dismissActionError: () => void;
+  reload: () => void;
+  addTask: (task: TaskInput) => Promise<Task>;
+  updateTask: (id: string, changes: TaskInput) => Promise<Task>;
+  toggleDone: (id: string) => Promise<void>;
 }
 
 const TaskContext = createContext<TaskContextValue | null>(null);
 
-/** Tanggal contoh dibuat relatif terhadap hari ini supaya badge selalu terlihat sama. */
-function dayFromNow(offset: number): string {
-  const date = new Date();
-  date.setDate(date.getDate() + offset);
-  return toDateString(date);
-}
-
-function createSampleTasks(): Task[] {
-  return [
-    {
-      id: '1',
-      title: 'Basis Data Lanjut',
-      course: 'Basis Data Lanjut',
-      type: 'kelompok',
-      dueDate: dayFromNow(1),
-      notes: '',
-      done: false,
-    },
-    {
-      id: '2',
-      title: 'Finance Technology',
-      course: 'Finance Technology',
-      type: 'individu',
-      dueDate: dayFromNow(3),
-      notes: '',
-      done: false,
-    },
-    {
-      id: '3',
-      title: 'Bahasa Indonesia',
-      course: 'Bahasa Indonesia',
-      type: 'individu',
-      dueDate: dayFromNow(6),
-      notes: '',
-      done: false,
-    },
-    {
-      id: '4',
-      title: 'Agama',
-      course: 'Agama',
-      type: 'individu',
-      dueDate: dayFromNow(12),
-      notes: '',
-      done: false,
-    },
-    {
-      id: '5',
-      title: 'Front End',
-      course: 'Front End',
-      type: 'kelompok',
-      dueDate: dayFromNow(-1),
-      notes: '',
-      done: true,
-    },
-  ];
-}
-
 export function TaskProvider({ children }: { children: ReactNode }) {
-  const [tasks, setTasks] = useState<Task[]>(createSampleTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [status, setStatus] = useState<Status>('loading');
+  const [actionError, setActionError] = useState<string | null>(null);
 
-  const addTask: TaskContextValue['addTask'] = (task) => {
-    setTasks((prev) => [...prev, { ...task, id: crypto.randomUUID(), done: false }]);
+  const fetchTasks = useCallback(() => {
+    api
+      .listTasks()
+      .then((list) => {
+        setTasks(list);
+        setStatus('ready');
+      })
+      .catch(() => setStatus('error'));
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const reload = () => {
+    setStatus('loading');
+    fetchTasks();
   };
 
-  const updateTask: TaskContextValue['updateTask'] = (id, changes) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...changes } : t)));
+  const addTask: TaskContextValue['addTask'] = async (input) => {
+    const created = await api.createTask(input);
+    setTasks((prev) => [...prev, created]);
+    return created;
   };
 
-  const toggleDone: TaskContextValue['toggleDone'] = (id) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+  const updateTask: TaskContextValue['updateTask'] = async (id, changes) => {
+    const saved = await api.updateTask(id, changes);
+    setTasks((prev) => prev.map((t) => (t.id === id ? saved : t)));
+    return saved;
+  };
+
+  const toggleDone: TaskContextValue['toggleDone'] = async (id) => {
+    const current = tasks.find((t) => t.id === id);
+    if (!current) return;
+    try {
+      const saved = await api.updateTask(id, { done: !current.done });
+      setTasks((prev) => prev.map((t) => (t.id === id ? saved : t)));
+    } catch {
+      setActionError('Status tugas gagal disimpan. Coba lagi.');
+    }
   };
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, updateTask, toggleDone }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        status,
+        actionError,
+        dismissActionError: () => setActionError(null),
+        reload,
+        addTask,
+        updateTask,
+        toggleDone,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

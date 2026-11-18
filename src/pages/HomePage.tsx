@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
 import { Button } from '../components/Button';
 import { TaskCard } from '../components/TaskCard';
+import { FlashMessage } from '../components/FlashMessage';
 import { Icon } from '../components/Icon';
 import { daysLeft } from '../utils/deadline';
 
@@ -39,8 +41,26 @@ function SectionHead({
 }
 
 export function HomePage() {
-  const { tasks } = useTasks();
+  const { tasks, status, reload, actionError, dismissActionError } = useTasks();
   const [hintVisible, setHintVisible] = useState(readHintVisible);
+  const location = useLocation();
+  const navigate = useNavigate();
+  // Pesan berhasil dikirim dari layar form lewat state rute.
+  const [flash, setFlash] = useState<string | null>(
+    () => (location.state as { flash?: string } | null)?.flash ?? null,
+  );
+
+  // Hapus state rute supaya pesan tidak muncul lagi saat halaman dimuat ulang.
+  useEffect(() => {
+    if (location.state) navigate(location.pathname, { replace: true, state: null });
+  }, [location.state, location.pathname, navigate]);
+
+  // Pesan hilang sendiri setelah 5 detik.
+  useEffect(() => {
+    if (!flash) return;
+    const timer = setTimeout(() => setFlash(null), 5000);
+    return () => clearTimeout(timer);
+  }, [flash]);
 
   function dismissHint() {
     setHintVisible(false);
@@ -69,9 +89,36 @@ export function HomePage() {
       ? 'Selamat mengerjakan.'
       : `${priority.length} tugas perlu segera dikerjakan.`;
 
+  if (status === 'loading') {
+    return (
+      <section className="screen home">
+        <p className="caption">Memuat tugas...</p>
+      </section>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <section className="screen home">
+        <FlashMessage
+          tone="error"
+          message="Tugas gagal dimuat dari penyimpanan."
+          onClose={reload}
+        />
+        <div className="home-body">
+          <Button onClick={reload}>Coba lagi</Button>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section className="screen home">
+        {flash && <FlashMessage message={flash} onClose={() => setFlash(null)} />}
+        {actionError && (
+          <FlashMessage tone="error" message={actionError} onClose={dismissActionError} />
+        )}
         <header className="home-hero">
           <div className="greeting">
             <span className="avatar">

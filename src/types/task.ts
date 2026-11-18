@@ -10,3 +10,6 @@ export interface Task {
   notes: string;
   done: boolean;
 }
+
+/** Isian yang dikirim saat menambah atau mengubah tugas. */
+export type TaskInput = Omit<Task, 'id' | 'done'>;

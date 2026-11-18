@@ -119,3 +119,43 @@
 .task-card > .card-body {
   display: contents;
 }
+
+/* Pesan singkat (berhasil atau gagal). Teks dan ikon selalu ada, tidak hanya warna. */
+.flash {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: var(--space-2);
+  padding: 8px 4px 8px 12px;
+  border-radius: var(--radius);
+  color: var(--white);
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+
+.flash p {
+  flex: 1;
+}
+
+.flash-success {
+  background: var(--color-success);
+}
+
+.flash-error {
+  background: var(--color-danger);
+}
+
+.flash-close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -8px 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
