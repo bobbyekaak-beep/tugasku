@@ -5,7 +5,10 @@ import { Button } from '../components/Button';
 import { DeadlineBadge } from '../components/DeadlineBadge';
 import { FormField } from '../components/FormField';
 import { Icon } from '../components/Icon';
+import { FlashMessage } from '../components/FlashMessage';
+import { TaskApiError } from '../api/taskApi';
 import { formatDateLong, toDateString } from '../utils/deadline';
+import { validateTask, type TaskErrors } from '../utils/validation';
 import type { TaskType } from '../types/task';
 import { NotFoundPage } from './NotFoundPage';
 
@@ -30,7 +33,9 @@ export function TaskFormPage() {
   const [type, setType] = useState<TaskType>(editing?.type ?? 'individu');
   const [dueDate, setDueDate] = useState(editing?.dueDate ?? toDateString(new Date()));
   const [notes, setNotes] = useState(editing?.notes ?? '');
-  const [errors, setErrors] = useState<{ title?: string; dueDate?: string }>({});
+  const [errors, setErrors] = useState<TaskErrors>({});
+  const [saving, setSaving] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const dateInput = useRef<HTMLInputElement>(null);
 
   // Alamat /ubah/ dengan id yang tidak ada diperlakukan sebagai halaman tidak ditemukan.
@@ -47,18 +52,27 @@ export function TaskFormPage() {
     }
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const next: typeof errors = {};
-    if (!title.trim()) next.title = 'Nama tugas wajib diisi';
-    if (!dueDate) next.dueDate = 'Tanggal tenggat wajib diisi';
+    setSubmitError(null);
+    const next = validateTask({ title, dueDate });
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
     const data = { title: title.trim(), course, type, dueDate, notes: notes.trim() };
-    if (editing) updateTask(editing.id, data);
-    else addTask(data);
-    navigate('/');
+    setSaving(true);
+    try {
+      const saved = editing ? await updateTask(editing.id, data) : await addTask(data);
+      const verb = editing ? 'Perubahan tugas' : 'Tugas';
+      const flash = editing
+        ? `${verb} "${saved.title}" disimpan`
+        : `${verb} "${saved.title}" berhasil disimpan`;
+      navigate('/', { state: { flash } });
+    } catch (err) {
+      if (err instanceof TaskApiError && err.fields) setErrors(err.fields);
+      else setSubmitError('Tugas gagal disimpan. Coba lagi.');
+      setSaving(false);
+    }
   }
 
   return (
@@ -75,6 +89,14 @@ export function TaskFormPage() {
           </button>
           <h2>{isEdit ? 'Ubah Tugas' : 'Tambah Tugas'}</h2>
         </div>
+
+        {submitError && (
+          <FlashMessage
+            tone="error"
+            message={submitError}
+            onClose={() => setSubmitError(null)}
+          />
+        )}
 
         <form id="task-form" className="form" onSubmit={handleSubmit} noValidate>
           <FormField
@@ -171,7 +193,7 @@ export function TaskFormPage() {
 
       {/* Tombol simpan tetap di bawah layar meskipun form di-scroll. */}
       <div className="action-bar">
-        <Button type="submit" form="task-form" fullWidth>
+        <Button type="submit" form="task-form" fullWidth loading={saving}>
           <Icon name="check" /> {isEdit ? 'Simpan Perubahan' : 'Simpan Tugas'}
         </Button>
       </div>
